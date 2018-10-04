@@ -1,0 +1,13 @@
+/*body {
+	background: grey;
+}*/
+
+.head {
+	position: absolute;
+	top: 16.5%;
+	left: 25%;
+	width: 50%;
+	height: 67%;
+	background: #A6BECF;
+	border-radius: 50%;
+}
