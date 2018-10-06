@@ -1,6 +1,6 @@
-/*body {
-	background: grey;
-}*/
+body {
+	background: rgb(191, 215, 252);
+}
 
 .head {
 	position: absolute;
@@ -10,4 +10,13 @@
 	height: 67%;
 	background: #A6BECF;
 	border-radius: 50%;
+}
+
+/*.hangman-letter {
+	margin: 0 .2rem !important;
+}*/
+
+#guess-area,
+#remaining-letters {
+	letter-spacing: .5rem;
 }

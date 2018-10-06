@@ -13,31 +13,37 @@ function displayRemainingLetters() {
 	var remainingLetterBox = document.getElementById("remaining-letters");
 	var displayString = "";
 	for(var i = 0; i < alphabet.length; i++) {
+		displayString += '<span class="hangman-letter">';
+		//displayString += "<p>";
 		if (!userGuessedLetters.includes(alphabet[i])) {
 			displayString += alphabet[i];
-			displayString += " ";
 		}
 		else {
-			displayString += "_ ";
+			displayString += "_";
 		}
+		displayString += "</span>";
+		//displayString += "</p>";
 	}
-	remainingLetterBox.innerHTML = "<p>" + displayString + "</p>";
+	//remainingLetterBox.innerHTML = "<p>" + displayString + "</p>";
+	remainingLetterBox.innerHTML = displayString;
 }
 
 function displayGuessArea() {
 	var guessArea = document.getElementById("guess-area");
 	userGuessDisplay = "";
 	for(var i = 0; i < computerSecretPhrase.length; i++) {
+		userGuessDisplay += '<span class="hangman-letter">';
 		if (userGuessedLetters.includes(computerSecretPhrase[i])) {
-			userGuessDisplay += computerSecretPhrase[i] + " ";
+			userGuessDisplay += computerSecretPhrase[i];
 			//userGuessDisplay += " "
 		} // todo: see if two statements can be combined above
 		else if (computerSecretPhrase[i] == " ") {
-			userGuessDisplay += "- "; // todo: add span with class id rather than spaces
+			userGuessDisplay += "-"; // todo: add span with class id rather than spaces
 		}
 		else {
-			userGuessDisplay += "_ ";
+			userGuessDisplay += "_";
 		}
+		userGuessDisplay += "</span>";
 	}
 	console.log("userGuessDisplay is: " + userGuessDisplay);
 	guessArea.innerHTML = "<p>" + userGuessDisplay + "</p>";
@@ -55,7 +61,10 @@ document.getElementById("start-hangman-game").onclick = startHangmanGame;
 
 document.onkeyup = function(event) {
 	var userKey = event.key;
-	if (userKey < 'a' || userKey > 'z') {
+	//if (userKey < 'a' || userKey > 'z') {
+	//	return;
+	//}
+	if (userKey.toLowerCase() == userKey.toUpperCase) {
 		return;
 	}
 	if (userGuessedLetters.includes(userKey)) {
