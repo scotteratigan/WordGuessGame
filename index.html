@@ -11,13 +11,14 @@
 <body>
 	<div class="container-fluid text-center">
 		<h1 class="text-center">Hipster Phrase Guess Game</h1>
+		<div class="my-5" id="score-area"></div>
 		<button class="btn btn-primary mx-auto" id="start-hangman-game">START NEW GAME</button>
 		<div class="row">
 			<div class="col-8">
-				<div id="score-area"></div>
-				<div id="guess-area"></div>
-				<div id="remaining-letters"></div>
-				<div id="guesses-remaining"></div>
+				
+				<div class="my-5" id="guess-area"></div>
+				<div class="my-5" id="remaining-letters"></div>
+				<div class="my-5" id="guesses-remaining"></div>
 				<!-- Buttons are the default way to trigger a bootstrap modal pop-up. But I want the modals to only appear on a win or loss, so I hide them here so they aren't clickable. --> 
 				<button type="button" id="game-won" class="btn btn-primary invisible" data-toggle="modal" data-target="#game-won-modal">Game won button</button>
 				<button type="button" id="game-lost" class="btn btn-primary invisible" data-toggle="modal" data-target="#game-lost-modal">Game lost button</button>

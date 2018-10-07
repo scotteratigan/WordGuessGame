@@ -36,10 +36,11 @@ function displayGuessesRemaining() { // Updates the div showing the number of wr
 	guessesRemainingArea.innerHTML = "<p>Wrong Guesses Remaining: " + wrongGuessesRemaining;
 }
 
-function displayHangman() {
+function displayHangman() { // Display a stick figure. The more wrong guesses, the deader he appears...
 	var hangmanArea = document.getElementById("hangman-area");
 	switch (wrongGuessCount) {
 		case 0:
+			hangmanArea.innerHTML = "";
 			break;
 		case 1:
 			hangmanArea.innerHTML = '<img src="assets/images/1.png">';
@@ -141,11 +142,12 @@ function userGuessesLetter(userKey) { // when a user has pressed a valid key, pr
 document.getElementById("start-hangman-game").onclick = startHangmanGame; // begin the game when player clicks the "START GAME" button
 
 document.onkeyup = function(event) { // process keyboard inputs. Ensure input is valid and game is in progress before passing to userGuessesLetter:
+	let keyPress = event.key.toLowerCase(); // convert case to lower, just in case capslock is on (it happens)
 	if (!gameInProgress) {
 		return // game isn't in progress, abort
 	}
-	if (event.key < 'a' || event.key > 'z') {
+	if (keyPress < 'a' || keyPress > 'z') {
 		return; // it's not a letter, abort
 	}
-	userGuessesLetter(event.key);
+	userGuessesLetter(keyPress); // ok, valid input, send it to the userGuessesLetter function
 }
