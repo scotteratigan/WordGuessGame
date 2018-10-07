@@ -4,69 +4,72 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Chakra+Petch:400,400i">
 	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<title>Hangman</title>
+	<link href="assets/images/favicon.ico" rel="icon" type="image/x-icon"/>
 </head>
 <body>
-	<div class="container-fluid text-center">
-		<h1 class="text-center">Hipster Phrase Guess Game</h1>
+	<div class="container-fluid text-center pt-3">
+		<h1 class="text-center">Hipster Hangman</h1>
+		<h6><em>You've probably never heard of this game...</em></h6>
 		<div class="my-5" id="score-area"></div>
 		<button class="btn btn-primary mx-auto" id="start-hangman-game">START NEW GAME</button>
 		<div class="row">
-			<div class="col-8">
-				
-				<div class="my-5" id="guess-area"></div>
-				<div class="my-5" id="remaining-letters"></div>
-				<div class="my-5" id="guesses-remaining"></div>
-				<!-- Buttons are the default way to trigger a bootstrap modal pop-up. But I want the modals to only appear on a win or loss, so I hide them here so they aren't clickable. --> 
+			<div class="col-12 col-md-8"> <!-- Wrap hangman picture underneath guessing area on narrow displays. -->
+				<div class="my-5" id="guess-area">
+					<!-- This area displays the letters the user has guessed, or underscores for letters not guessed yet. -->
+				</div>
+				<div class="my-5" id="remaining-letters">
+					<!-- This area displays the remaining alphabet letters. -->
+				</div>
+				<div class="my-5" id="guesses-remaining">
+					<!-- This shows the numerical value of the remaining wrong guesses. -->
+				</div>
+				<!-- Buttons are the default way to trigger a bootstrap modal pop-up.
+					But I want the modals to only appear on a win or loss, so I hide them here with class invisible so they aren't visible/clickable. --> 
 				<button type="button" id="game-won" class="btn btn-primary invisible" data-toggle="modal" data-target="#game-won-modal">Game won button</button>
 				<button type="button" id="game-lost" class="btn btn-primary invisible" data-toggle="modal" data-target="#game-lost-modal">Game lost button</button>
 				<!-- Win modal: -->
-				<div class="modal fade" id="game-won-modal" tabindex="-1" role="dialog" aria-labelledby="gameWonModal" aria-hidden="true">
+				<div class="modal fade" id="game-won-modal" tabindex="-1" role="dialog" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h6 class="modal-title" id="exampleModalLabel">YOU WON</h6>
+								<h6 class="modal-title">YOU WON</h6>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
+									<span aria-hidden="true">×</span>
 								</button>
 							</div>
 							<div class="modal-body">
 								Congratulations, you have won this round!
 							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-primary mx-auto" data-dismiss="modal">Close</button>
-							</div>
 						</div>
 					</div>
 				</div>
 				<!-- Loss modal: -->
-				<div class="modal fade" id="game-lost-modal" tabindex="-1" role="dialog" aria-labelledby="gameLostModal" aria-hidden="true">
+				<div class="modal fade" id="game-lost-modal" tabindex="-1" role="dialog" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h6 class="modal-title" id="exampleModalLabel">YOU LOST</h6>
+								<h6 class="modal-title">YOU LOST</h6>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
+									<span aria-hidden="true">×</span>
 								</button>
 							</div>
 							<div class="modal-body">
 								Sorry, you have run out of guesses - you have lost :/
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-primary mx-auto" data-dismiss="modal">Close</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-4" id="hangman-area">
-				<!-- <img src="assets/images/1.png"> -->
+				<!-- The hangman image will appear here once user gets a guess wrong. -->
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="assets/javascript/game.js"></script>
+	<script src="assets/javascript/game.js"></script>
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </body>
