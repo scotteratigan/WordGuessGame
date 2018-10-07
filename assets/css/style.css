@@ -1,8 +1,8 @@
-body {
+/*body {
 	background: rgb(191, 215, 252);
-}
+}*/
 
-.head {
+/*.head {
 	position: absolute;
 	top: 16.5%;
 	left: 25%;
@@ -10,7 +10,7 @@ body {
 	height: 67%;
 	background: #A6BECF;
 	border-radius: 50%;
-}
+}*/
 
 /*.hangman-letter {
 	margin: 0 .2rem !important;
