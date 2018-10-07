@@ -129,6 +129,8 @@ function gameIsLost() { // User has lost the game.
 	gameInProgress = false;
 	losses++;
 	displayScore();
+	guessedLetterList = alphabet; // Add all letters, so that user can see the word/phrase they didn't figure out.
+	displayGuessArea();
 	document.getElementById("game-lost").click(); // Fake a click to pop up a bootstrap 'game-lost' modal.
 	document.getElementById("start-hangman-game").classList.remove("invisible"); // Make "START NEW GAME" button visible again.
 }
