@@ -1,4 +1,7 @@
-#guess-area,
-#remaining-letters {
-	letter-spacing: .5rem;
+button, h1, h6, p, .modal-body {
+	font-family: 'Chakra Petch', sans-serif;
+}
+
+#guess-area {
+	letter-spacing: 0.7rem;
 }
