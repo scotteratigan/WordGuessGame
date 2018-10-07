@@ -7,6 +7,7 @@
 // Game proceeds until all letters are correctly guessed, or user runs out of guesses.
 // When game ends, a Game Won or Game Lost modal is displayed.
 
+// Set up all variables:
 const alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]; // Array that helps display the user guesses
 var computerSecretPhrase = ""; // The magic phrase to guess, populated randomly when game starts.
 var gameInProgress = false; // Allows ignoring keyboard input and button clicks of letters if game is over.
@@ -23,20 +24,28 @@ var wrongSound = new Audio("assets/sounds/error.mp3");
 var gameLostSound = new Audio("assets/sounds/uhoh.mp3");
 var gameWonSound = new Audio("assets/sounds/tada.mp3");
 
-function displayGuessArea() { // Updates the div showing which letters have been correctly guessed
+// Game functions:
+function correctLetterGuessed() { // User has guessed a correct letter.
+	correctSound.play();
+	if (!userGuessDisplay.includes('_')) { // If there are no underscores left in display, user has won.
+		gameIsWon();
+	}
+}
+
+function displayGuessArea() { // Updates the div showing which letters have been correctly guessed.
 	var guessArea = document.getElementById("guess-area");
 	userGuessDisplay = "";
 	for(var i = 0; i < computerSecretPhrase.length; i++) {
 		if (guessedLetterList.includes(computerSecretPhrase[i])) {
-			// for each letter, if it's been guessed, display it
+			// For each letter, if it's been guessed already, display it.
 			userGuessDisplay += computerSecretPhrase[i];
 		}
 		else if (computerSecretPhrase[i] == " ") {
-			// if instead of a letter, there's a space in the solution, represent that with a dash
+			// If instead of a letter, there's a space in the solution, represent that with a dash.
 			userGuessDisplay += "-";
 		}
 		else {
-			// lastly, if the letter hasn't been guessed yet, display an underscore placeholder
+			// Lastly, if the letter hasn't been guessed yet, display an underscore placeholder.
 			userGuessDisplay += "_";
 		}
 	}
@@ -92,14 +101,14 @@ function displayHangman() { // Display a stick figure. The more wrong guesses, t
 	}
 }
 
-function displayRemainingLetters() { // shows the letters in the alphabet that haven't been guessed yet:
+function displayRemainingLetters() { // Display letters that haven't been guessed yet.
 	var remainingLetterBox = document.getElementById("remaining-letters");
 	var displayString = "";
 	for(var i = 0; i < alphabet.length; i++) {
 		let letter = alphabet[i];
 		displayString += "<div class='col-1'>";
 		if (!guessedLetterList.includes(letter)) {
-			// display letter as a clickable button with an event attached to it. Passes the letter as an argument to the userGuessesLetter function.
+			// Display letter as a clickable button with an event attached to it. Passes the letter as an argument to the userGuessesLetter function.
 			displayString += "<button class='m-1 px-auto btn-primary' onclick='userGuessesLetter(\"" + letter + "\")'>" + letter + "</button>";
 		}
 		else {
@@ -110,29 +119,48 @@ function displayRemainingLetters() { // shows the letters in the alphabet that h
 	remainingLetterBox.innerHTML = "<div class='row'>" + displayString + "</div>";
 }
 
-function displayScore() { // show the totals for games won vs lost:
+function displayScore() { // Display score (wins & losses).
 	var scoreArea = document.getElementById("score-area");
 	scoreArea.innerHTML = "<p>Wins: " + wins + " , Losses: " + losses + "</p>";
 }
 
-function startHangmanGame() { // begin a new game. Initialize all variables and update all relevant divs.
+function gameIsLost() { // User has lost the game.
+	gameLostSound.play();
+	gameInProgress = false;
+	losses++;
+	displayScore();
+	document.getElementById("game-lost").click(); // Fake a click to pop up a bootstrap 'game-lost' modal.
+	document.getElementById("start-hangman-game").classList.remove("invisible"); // Make "START NEW GAME" button visible again.
+}
+
+function gameIsWon() { // User has won the game.
+	gameWonSound.play();
+	gameInProgress = false;
+	wins++;
+	displayScore();
+	document.getElementById("game-won").click(); // Fake a click to pop up a bootstrap 'game-won' modal.
+	document.getElementById("start-hangman-game").classList.remove("invisible"); // Make "START NEW GAME" button visible again.
+}
+
+function startHangmanGame() { // Begin a new game. Initialize all variables and update all relevant divs.
 	gameInProgress = true;
 	wrongGuessCount = 0;
-	computerSecretPhrase = phrasesToGuess[Math.floor(Math.random() * phrasesToGuess.length)]; // selects a random phrase from the array
-	guessedLetterList = []; // resets the list of guessed letters
-	displayScore(); // now, update all game areas
+	computerSecretPhrase = phrasesToGuess[Math.floor(Math.random() * phrasesToGuess.length)]; // Selects a random phrase from the array.
+	guessedLetterList = []; // Reset the list of guessed letters.
+	displayScore(); // Update all game areas:
 	displayGuessArea();
 	displayRemainingLetters();
 	displayGuessesRemaining();
-	document.getElementById("start-hangman-game").classList.add("invisible"); // make "START NEW GAME" button invisible until game is over
+	// Make "START NEW GAME" button invisible until game is over. (Don't want to cheat or accidentally start new game.):
+	document.getElementById("start-hangman-game").classList.add("invisible"); 
 	displayHangman();
 }
 
-function userGuessesLetter(userKey) {
+function userGuessesLetter(userKey) { // A letter is guessed.
 	if (guessedLetterList.includes(userKey)) {
 		return; // Letter was already guessed, ignore input.
 	}
-	guessedLetterList.push(userKey); // add letter to list of guessed letters
+	guessedLetterList.push(userKey); // Add letter to list of guessed letters.
 	displayGuessesRemaining();
 	displayGuessArea();
 	displayRemainingLetters();
@@ -144,47 +172,22 @@ function userGuessesLetter(userKey) {
 	}
 }
 
-function correctLetterGuessed() {
-	correctSound.play();
-	if (!userGuessDisplay.includes('_')) {
-		// If there are no underscores left in display, user has won.
-		gameIsWon();
-	}
-}
-
-function wrongLetterGuessed() {
+function wrongLetterGuessed() { // The guessed letter is not in the solution.
 	wrongSound.play();
 	wrongGuessCount++;
 	displayHangman();
-	if (wrongGuessCount > maxWrongGuesses) { // User has lost the game :/
+	if (wrongGuessCount > maxWrongGuesses) { // User has lost the game. :/
 		gameIsLost();
 	}
 }
 
-function gameIsWon() {
-	gameWonSound.play();
-	gameInProgress = false;
-	wins++;
-	displayScore();
-	document.getElementById("game-won").click(); // fake a click to pop up a bootstrap 'won' modal
-	document.getElementById("start-hangman-game").classList.remove("invisible"); // Make "START NEW GAME" button visible again.
-}
-
-function gameIsLost() {
-	gameLostSound.play();
-	gameInProgress = false;
-	losses++;
-	displayScore();
-	document.getElementById("game-lost").click(); // fake a click to pop up a bootstrap 'lost' modal
-	document.getElementById("start-hangman-game").classList.remove("invisible"); // make "START NEW GAME" button visible again
-}
-
+// Events:
+// Note: additional events are created when letter buttons are added in displayRemainingLetters().
 document.getElementById("start-hangman-game").onclick = startHangmanGame; // Begin the game when player clicks the "START GAME" button.
 
-document.onkeyup = function(event) {
-// Process keyboard inputs. Ensure input is valid and game is in progress before passing to userGuessesLetter.
-// Passing to a separate function because that function will also handle clicks of letter-buttons.
-	let keyPress = event.key.toLowerCase(); // convert case to lower, just in case capslock is on (it happens)
+document.onkeyup = function(event) { // Process keyboard inputs. Ensure input is valid and game is in progress before passing to userGuessesLetter.
+	// Passing to a separate function because that function will also handle clicks of letter-buttons.
+	let keyPress = event.key.toLowerCase(); // Convert case to lower, just in case capslock is on. (It happens!)
 	if (!gameInProgress) {
 		return // Game isn't in progress, ignore input.
 	}
